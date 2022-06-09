@@ -1,8 +1,12 @@
 from typing import Union
 
 from fastapi import FastAPI
+from .api import api_users
 
 app = FastAPI()
+
+
+app.include_router(api_users.router, prefix='/users')
 
 
 @app.get("/")
