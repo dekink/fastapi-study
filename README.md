@@ -1,2 +1,2 @@
-# fastapi-A
+# fastapi-study
 fastapi study
