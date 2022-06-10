@@ -1,19 +1,34 @@
-from fastapi import APIRouter, Query, Path
+from fastapi import APIRouter, Query, Path, Cookie, Header
 from pydantic import Required
+from app import models
 
 router = APIRouter()
 
 
 @router.get("/items/{item_id}")
 def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "q": q}
+    item = {
+        'name': 'name',
+        'price': 3.3,
+        'tax': 10.2
+    }
+    return {"item_id": item_id, "q": q, 'item': item}
 
 
 @router.get("/items/")
 async def read_items(
-        q: str | None = Query(default=None, min_length=3, max_length=50, regex='^fixedquery$')
+        # 언더스코터 헤더 허용 안할수도..
+        user_agent: str | None = Header(default=None, convert_underscores=False), # 헤더 선언 header사용해야함 안하면 쿼리로 인식
+        x_token: list[str] | None = Header(default=None),# 중복헤더
+        q: str | None = Query(default=None, min_length=3, max_length=50, regex='^fixedquery$'),
+        ads_id: str | None = Cookie(default=None),
 ):
-    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    results = {
+        "items": [{"item_id": "Foo"}, {"item_id": "Bar"}],
+        'ads_id': ads_id,
+        'User-Agent': user_agent,
+        'X-token': x_token
+    }
     if q:
         results.update({"q": q})
     return results
