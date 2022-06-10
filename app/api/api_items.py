@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Path
 from pydantic import Required
 
 router = APIRouter()
@@ -31,8 +31,25 @@ async def read_items_required(
 
 
 @router.get('/items/list/')
-async def read_items_list(q: list[str] | None = None):
+async def read_items_list(
+        q: list[str] | None = Query(
+            default=['foo', 'bar'],
+            description='리스트 파라미터 입니다.',
+            alias='item-query', # 이렇게 바꿔줄수 있다
+            include_in_schema=False # docs에서 안보여줌
+        )
+):
     results = {'item_type': 'list[str]', 'required': False}
+    if q:
+        results.update({'q': q})
+    return results
+
+
+@router.get('/items/{item_id}/path/')
+async def read_items_path(
+        *, item_id: int = Path(title="The ID of the item to get"), q: str
+):
+    results = {'item_id': item_id}
     if q:
         results.update({'q': q})
     return results
