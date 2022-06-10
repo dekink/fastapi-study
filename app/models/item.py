@@ -16,6 +16,8 @@ class Item(BaseModel):
     tags: list[str] = []
     types: set[int] = set()
     image: Image | None = None
+    # image: Image | None = Field(default=None)
+    # image: Image = None
     images: list[Image] | None = None
 
     # class Config:

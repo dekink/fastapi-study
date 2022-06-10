@@ -68,3 +68,14 @@ async def read_items_path(
     if q:
         results.update({'q': q})
     return results
+
+
+# day 2
+# body랑 쿼리랑 섞어서 쓸수있는데 Query 를 명시적으로 쓰는게 더 보기 좋을듯
+# pydantic 의존성.. open api스펙과 출동나는 부분 좀 헷갈린다..!
+# 동작이 달라지는 부분이 있다
+# examples 멋있다... 문서화 희망편...
+# swagger 에러가 많다...
+# in, Out? or 자기만의 규칙 (req_*, res_*) 별도로 만들어서 관리하는게
+# test 코드를 짜야겠다
+# pants 세팅 이야기
