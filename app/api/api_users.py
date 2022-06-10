@@ -1,17 +1,9 @@
 from fastapi import APIRouter
-
-from pydantic import BaseModel
+from app import models
 
 router = APIRouter()
 
 
-class User(BaseModel):
-    name: str
-    description: str | None = None
-    phone: int
-    email: str | None = None
-
-
 @router.get('/me')
-async def read_user_me(user: User):
+async def read_user_me(user: models.user.User):
     return {'user_me': user}
