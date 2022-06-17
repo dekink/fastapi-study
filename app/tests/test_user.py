@@ -1,12 +1,10 @@
 import unittest
-from fastapi.testclient import TestClient
-from app.main import app
 
-client = TestClient(app)
+from .common import get_test_client
 
 
 class Test(unittest.TestCase):
-    def test_init(self):
-        r = client.get("/")
+    def test_route(self):
+        r = get_test_client().get("/")
         assert r.status_code == 200
         assert r.json()["Hello"] == "World"
