@@ -13,3 +13,18 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+
+class SessionContext:
+    session = None
+
+    def __enter__(self):
+        self.session = SessionLocal()
+        return self.session
+
+    def __exit__(self):
+   	    self.session.close()
+    
+    
+# with SessionContext() as session:
+#     pass
